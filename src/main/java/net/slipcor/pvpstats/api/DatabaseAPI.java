@@ -20,6 +20,7 @@ import net.slipcor.pvpstats.yml.Config;
 import net.slipcor.pvpstats.yml.Language;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -321,7 +322,28 @@ public final class DatabaseAPI {
         DEBUGGER.i("Counting kill by " + attacker.getName(), victim.getName());
         lastKill.put(attacker.getName(), victim.getName());
 
-        if (!plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
+        // tbm00 - mc64
+        // checking players' playtime to make sure they neither are newbies
+        // if so, they should not have their ELO score updated
+        int current_attacker_ticks=0, current_victim_ticks=0;
+        boolean passNewbieCheck=true;
+        try {
+            current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
+            current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
+        } catch (Exception e) {
+            try {
+                current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
+                current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
+            } catch (Exception e2) {
+                e.printStackTrace();
+                e2.printStackTrace();
+                passNewbieCheck=false;
+            }
+        } if ((current_attacker_ticks < 864000) || (current_victim_ticks < 864000)) { // 12 hrs
+            passNewbieCheck=false;
+        } 
+
+        if (!passNewbieCheck || !plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
             DEBUGGER.i("no elo", victim.getName());
             incKill(attacker, PlayerStatisticsBuffer.getEloScore(attacker.getUniqueId()));
             incDeath(victim, PlayerStatisticsBuffer.getEloScore(victim.getUniqueId()));
