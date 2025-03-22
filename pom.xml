@@ -48,10 +48,7 @@
             <artifactId>core</artifactId>
             <version>0.3.9</version>
             <type>jar</type>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/core-0.3.9.jar</systemPath>
         </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
