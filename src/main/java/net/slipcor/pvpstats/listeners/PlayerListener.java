@@ -188,6 +188,10 @@ public class PlayerListener implements Listener {
             return false; // we do eventually count this as regular death
         }
 
+        if (!player.hasPermission("pvpstats.count")) {
+            return true;
+        }
+
         List<String> tags = plugin.config().getStringList(Config.Entry.STATISTICS_PREVENTING_PLAYER_META, new ArrayList<String>());
 
         for (String tag : tags) {
