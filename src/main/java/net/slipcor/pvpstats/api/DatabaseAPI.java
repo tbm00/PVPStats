@@ -296,10 +296,19 @@ public final class DatabaseAPI {
             TextFormatter.explainNewbieStatus(attacker, victim);
             return;
         }
+
+        final int oldA = PlayerStatisticsBuffer.getEloScore(attacker.getUniqueId());
+        final int oldP = PlayerStatisticsBuffer.getEloScore(victim.getUniqueId());
+        
+        if (Math.abs(oldA-oldP)>2000) {
+            DEBUGGER.i("(difference in elo scores) > 2000", victim.getName());
+            TextFormatter.explainEloDifference(attacker, victim);
+            return;
+        }
+
         // here we go, PVP!
 
         final int streak = PlayerStatisticsBuffer.getStreak(victim.getUniqueId());
-
         final int threshold = plugin.config().getInt(Config.Entry.STATISTICS_STREAK_BROKEN_THRESHOLD);
 
         if ((threshold == 0 && streak > 0) || (threshold > 0 && streak >= threshold)) {
@@ -372,9 +381,6 @@ public final class DatabaseAPI {
         final int kBelow = plugin.config().getInt(Config.Entry.ELO_K_BELOW);
         final int kAbove = plugin.config().getInt(Config.Entry.ELO_K_ABOVE);
         final int kThreshold = plugin.config().getInt(Config.Entry.ELO_K_THRESHOLD);
-
-        final int oldA = PlayerStatisticsBuffer.getEloScore(attacker.getUniqueId());
-        final int oldP = PlayerStatisticsBuffer.getEloScore(victim.getUniqueId());
 
         final int kA = oldA >= kThreshold ? kAbove : kBelow;
         final int kP = oldP >= kThreshold ? kAbove : kBelow;

@@ -197,6 +197,28 @@ public class TextFormatter {
         PVPStats.getInstance().sendPrefixedOP(list, message.toArray(new TextComponent[0]));
     }
 
+    public static void explainEloDifference(OfflinePlayer attacker, OfflinePlayer victim) {
+        List<TextComponent> message = new ArrayList<>();
+
+        String killer = attacker == null ? "something unknown" : PlayerHandler.getPlayerName(attacker);
+        String killed = victim == null ? "nothing" : PlayerHandler.getPlayerName(victim);
+
+        message.add(new TextComponent(killer).setColor(ChatColor.YELLOW));
+        message.add(new TextComponent(" killing "));
+        message.add(new TextComponent(killed).setColor(ChatColor.YELLOW));
+        message.add(new TextComponent(" was not recorded as the difference in players' elo scores was greater than 2000."));
+
+        List<CommandSender> list = new ArrayList<>();
+        if (attacker != null) {
+            list.add(attacker.getPlayer());
+        }
+        if (victim != null) {
+            list.add(victim.getPlayer());
+        }
+
+        PVPStats.getInstance().sendPrefixedOP(list, message.toArray(new TextComponent[0]));
+    }
+
     public static void explainIgnoredWorld(Player player) {
         List<TextComponent> message = new ArrayList<>();
 
