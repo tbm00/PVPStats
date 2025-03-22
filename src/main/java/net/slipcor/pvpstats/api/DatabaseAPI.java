@@ -57,7 +57,8 @@ public final class DatabaseAPI {
     /**
      * Player A killed player B - use this to generally emulate a player kill.
      *
-     * There will be checks for newbie status, whether both players are valid Player objects
+     * There will be checks for newbie status, whether both players are valid Player objects,
+     * and if players have 
      *
      * @param attacker the killing player
      * @param victim   the killed player
@@ -326,7 +327,7 @@ public final class DatabaseAPI {
         // checking players' playtime to make sure they neither are newbies
         // if so, they should not have their ELO score updated
         int current_attacker_ticks=0, current_victim_ticks=0;
-        boolean passNewbieCheck=true;
+        boolean passNewbieCheck64=true;
         try {
             current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
             current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
@@ -337,14 +338,15 @@ public final class DatabaseAPI {
             } catch (Exception e2) {
                 e.printStackTrace();
                 e2.printStackTrace();
-                passNewbieCheck=false;
+                passNewbieCheck64=false;
             }
         } if ((current_attacker_ticks < 864000) || (current_victim_ticks < 864000)) { // 12 hrs
-            passNewbieCheck=false;
+            passNewbieCheck64=false;
         } 
 
-        if (!passNewbieCheck || !plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
-            DEBUGGER.i("no elo", victim.getName());
+        if (!passNewbieCheck64 || !plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
+            if (passNewbieCheck64) DEBUGGER.i("mc64 newbie detected", victim.getName());
+            else DEBUGGER.i("no elo", victim.getName());
             incKill(attacker, PlayerStatisticsBuffer.getEloScore(attacker.getUniqueId()));
             incDeath(victim, PlayerStatisticsBuffer.getEloScore(victim.getUniqueId()));
 
