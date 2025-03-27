@@ -79,7 +79,7 @@ public class LeaderboardBuffer {
             return new String[0];
         }
 
-        length = Math.min(10, length);
+        length = Math.min(8, length);
 
         String[] result = new String[length];
 
@@ -127,7 +127,7 @@ public class LeaderboardBuffer {
             return new String[0];
         }
 
-        length = Math.min(10, length);
+        length = Math.min(8, length);
 
         String[] result = new String[length];
 
@@ -176,7 +176,7 @@ public class LeaderboardBuffer {
             return new String[0];
         }
 
-        length = Math.min(10, length);
+        length = Math.min(8, length);
 
         String[] result = new String[length];
 
@@ -218,7 +218,7 @@ public class LeaderboardBuffer {
             return new String[0];
         }
 
-        length = Math.min(10, length);
+        length = Math.min(8, length);
 
         String[] result = new String[length];
 

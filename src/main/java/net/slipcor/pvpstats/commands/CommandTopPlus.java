@@ -36,7 +36,7 @@ public class CommandTopPlus extends CoreCommand {
                 return;
             }
 
-            int amount = 10;
+            int amount = 8;
 
             if (args.length > 3) {
                 // /pvpstats topplus [type] [days] [amount] - show the top [amount] players of the last [days] days
@@ -44,7 +44,7 @@ public class CommandTopPlus extends CoreCommand {
                     amount = Integer.parseInt(args[3]);
                 } catch (Exception e2) {
                     PVPStats.getInstance().sendPrefixed(sender, Language.MSG.COMMAND_ARGUMENT_INVALID_NUMBER.parse(args[3]));
-                    amount = 10;
+                    amount = 8;
                 }
             }
 
@@ -96,7 +96,7 @@ public class CommandTopPlus extends CoreCommand {
 
     @Override
     public String getShortInfo() {
-        return "/pvpstats topplus [type] [days] - show the top 10 players of given type, in the last [days] days\n" +
+        return "/pvpstats topplus [type] [days] - show the top 8 players of given type, in the last [days] days\n" +
                 "/pvpstats topplus [type] [days] [amount] - show the top [amount] players of the given type, in the last [days] days";
     }
 }

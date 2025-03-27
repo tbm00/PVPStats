@@ -47,13 +47,13 @@ public class CommandTop extends CoreCommand {
                         try {
                             amount = Integer.parseInt(args[2]);
                         } catch (Exception e2) {
-                            amount = 10;
+                            amount = 8;
                         }
                     }
 
-                    //   /pvpstats top [type] - show the top 10 players of the type
+                    //   /pvpstats top [type] - show the top 8 players of the type
                     if (amount == -1) {
-                        amount = 10;
+                        amount = 8;
                     }
 
                     int offset = 0;
@@ -91,7 +91,7 @@ public class CommandTop extends CoreCommand {
             // /pvpstats [amount] - show the top [amount] players (ELO)
             try {
                 // legacytop == 0 -->
-                int count = legacyTop == 0 ? 10 : Integer.parseInt(args[0]);
+                int count = legacyTop == 0 ? 8 : Integer.parseInt(args[0]);
                 if (legacyTop == 0) {
                     args[0] = String.valueOf(count);
                 }
@@ -99,7 +99,7 @@ public class CommandTop extends CoreCommand {
                 if (args.length > 2) {
                     // we did offset the arguments for backwards compatibility
                     // /pvpstats [amount] [amount] [page]
-                    offset = 10 * (Integer.parseInt(args[2]) - 1);
+                    offset = 8 * (Integer.parseInt(args[2]) - 1);
                 }
                 Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "ELO", count, args[0], offset));
             } catch (Exception e) {
@@ -149,7 +149,7 @@ public class CommandTop extends CoreCommand {
     @Override
     public String getShortInfo() {
         return "/pvpstats top [amount] - show the top [amount] players (K-D)\n" +
-                "/pvpstats top [type] - show the top 10 players of the type\n" +
+                "/pvpstats top [type] - show the top 8 players of the type\n" +
                 "/pvpstats top [type] [amount] - show the top [amount] players of the type";
     }
 }

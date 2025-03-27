@@ -51,7 +51,7 @@ public class CommandTopWorld extends CoreCommand {
                 return;
             }
 
-            int amount = 10;
+            int amount = 8;
 
             if (args.length > 4) {
                 // /pvpstats topworld [type] [world] [days] [amount] - show the top [amount] players of the last [days] days in world [world]
@@ -59,7 +59,7 @@ public class CommandTopWorld extends CoreCommand {
                     amount = Integer.parseInt(args[4]);
                 } catch (Exception e2) {
                     PVPStats.getInstance().sendPrefixed(sender, Language.MSG.COMMAND_ARGUMENT_INVALID_NUMBER.parse(args[4]));
-                    amount = 10;
+                    amount = 8;
                 }
             }
 
@@ -118,7 +118,7 @@ public class CommandTopWorld extends CoreCommand {
 
     @Override
     public String getShortInfo() {
-        return "/pvpstats topworld [type] [world] [days] - show the top 10 players of given type, in the last [days] days\n" +
+        return "/pvpstats topworld [type] [world] [days] - show the top 8 players of given type, in the last [days] days\n" +
                 "/pvpstats topworld [type] [world] [days] [amount] - show the top [amount] players of the given type, in the last [days] days";
     }
 }
