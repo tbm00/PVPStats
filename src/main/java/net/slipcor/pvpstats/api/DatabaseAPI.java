@@ -636,6 +636,7 @@ public final class DatabaseAPI {
         int deaths = result.getDeaths();
         int streak = result.getCurrentStreak();
         int maxStreak = result.getMaxStreak();
+        Character rating = PlayerStatisticsBuffer.getRating(elo);
 
         Double ratio = calculateRatio(result);
         DecimalFormat df = new DecimalFormat("#.##");
@@ -654,6 +655,7 @@ public final class DatabaseAPI {
                 line = line.replace("%r", df.format(ratio));
                 line = line.replace("%s", String.valueOf(streak));
                 line = line.replace("%e", String.valueOf(elo));
+                line = line.replace("%x", String.valueOf(rating));
 
                 output[i] = Language.colorize(line);
             }
@@ -664,30 +666,29 @@ public final class DatabaseAPI {
 
         output = new String[plugin.config().getBoolean(Config.Entry.ELO_ACTIVE) ? 7 : 6];
 
-        output[0] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        int i = 0;
+
+        output[i++] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_NAME.parse(),
                 name);
-        output[1] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        if (plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) 
+            output[i++] = Language.MSG.STATISTIC_FORMAT_RATING_INFO.parse("Rating",
+                    String.valueOf(rating), String.valueOf(elo));
+        output[i++] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_KILLS.parse(),
                 String.valueOf(kills));
-        output[2] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        output[i++] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_DEATHS.parse(),
                 String.valueOf(deaths));
-        output[3] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        output[i++] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_RATIO.parse(),
                 df.format(ratio));
-        output[4] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        output[i++] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_STREAK.parse(),
                 String.valueOf(streak));
-        output[5] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
+        output[i] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
                 Language.MSG.STATISTIC_VALUE_MAX_STREAK.parse(),
                 String.valueOf(maxStreak));
-
-        if (plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
-            output[6] = Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                    Language.MSG.STATISTIC_VALUE_ELO.parse(),
-                    String.valueOf(elo));
-        }
         return output;
     }
 
@@ -1053,24 +1054,24 @@ public final class DatabaseAPI {
                 switch (sort) {
 
                     case "KILLS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(), String.valueOf(entry.getKills())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getDeaths())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getDeaths())));
                         break;
                     case "ELO":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getELO())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getELO())));
                         break;
                     case "STREAK":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getMaxStreak())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getMaxStreak())));
                         break;
                     case "CURRENTSTREAK":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getCurrentStreak())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getCurrentStreak())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1124,12 +1125,12 @@ public final class DatabaseAPI {
                 switch (sort) {
 
                     case "KILLS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(), String.valueOf(entry.getKills())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getDeaths())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getDeaths())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1182,12 +1183,12 @@ public final class DatabaseAPI {
                 switch (sort) {
 
                     case "KILLS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(), String.valueOf(entry.getKills())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getDeaths())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getDeaths())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1272,24 +1273,24 @@ public final class DatabaseAPI {
                 switch (sort) {
 
                     case "KILLS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(), String.valueOf(entry.getKills())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getDeaths())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getDeaths())));
                         break;
                     case "ELO":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getELO())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getELO())));
                         break;
                     case "STREAK":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getMaxStreak())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getMaxStreak())));
                         break;
                     case "CURRENTSTREAK":
-                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_VALUE.parse(
-                                entry.getName(),String.valueOf(entry.getCurrentStreak())));
+                        sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
+                                entry.getName(), String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), String.valueOf(entry.getCurrentStreak())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));

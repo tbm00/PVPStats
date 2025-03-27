@@ -240,6 +240,47 @@ public final class PlayerStatisticsBuffer {
     }
 
     /**
+     * Get a player's current rating (based on elo score)
+     *
+     * @param uuid the player to read
+     * @return the player's current rating score
+     */
+    public static Character getRating(UUID uuid) {
+        Integer elo = null;
+        if (hasEloScore(uuid)) {
+            elo = eloScore.get(uuid);
+        } if (elo == null) {
+            final int value = DatabaseAPI.getEntry(uuid, "elo");
+            if (value > 0) {
+                eloScore.put(uuid, value);
+                elo = value;
+            }
+        } if (elo == null) {
+            Integer idefault = PVPStats.getInstance().config().getInt(Config.Entry.ELO_DEFAULT);
+            eloScore.put(uuid, idefault);
+            elo = idefault;
+        }
+
+        return getRating(elo);
+    }
+
+    /**
+     * Get a score's current rating
+     *
+     * @param elo the score to read
+     * @return the score's current rating
+     */
+    public static Character getRating(int elo) {
+        if (elo<400) return 'F';
+        else if (400<=elo && elo<1200) return 'D';
+        else if (1200<=elo && elo<1600) return 'C';
+        else if (1600<=elo && elo<2400) return 'B';
+        else if (2400<=elo && elo<3200) return 'A';
+        else if (3200<=elo) return 'S';
+        else return 'X';
+    }
+
+    /**
      * Get a player's current configurable kill/death ratio
      *
      * @param uuid the player UUID to read

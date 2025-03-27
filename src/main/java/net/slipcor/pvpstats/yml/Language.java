@@ -126,6 +126,9 @@ public class Language extends CoreLanguage {
         STATISTIC_FORMAT_NUMBER("%0%: %1%"),
         STATISTIC_FORMAT_VALUE("&c%0%: &7%1%"),
 
+        STATISTIC_FORMAT_RATING_TOP("&c%0% (%1%): &7%2%"),
+        STATISTIC_FORMAT_RATING_INFO("&c%0%: &7%1% (%2% elo)"),
+
         STATISTIC_HEADLINE_TOP("&cPVP Stats Top &7%0% &c%1%"),
         STATISTIC_HEADLINE_FLOP("&cPVP Stats Flop &7%0% &c%1%"),
         STATISTIC_HEADLINE_TOPWORLD("&cPVP Stats Top &7%0% &c%1% in &e%2%"),

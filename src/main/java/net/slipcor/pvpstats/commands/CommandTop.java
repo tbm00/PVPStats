@@ -73,7 +73,7 @@ public class CommandTop extends CoreCommand {
                         Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "DEATHS", amount, offset));
                     } else if (args[1].equalsIgnoreCase("streak")) {
                         Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "STREAK", amount, offset));
-                    } else if (args[1].equalsIgnoreCase("elo")) {
+                    } else if (args[1].equalsIgnoreCase("elo")||args[1].equalsIgnoreCase("rating")||args[1].equalsIgnoreCase("rank")) {
                         Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "ELO", amount, offset));
                     } else if (args[1].equalsIgnoreCase("ratio")) {
                         Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "K-D", amount, offset));
@@ -83,12 +83,12 @@ public class CommandTop extends CoreCommand {
 
                     return;
                 }
-                //   /pvpstats top [amount] - show the top [amount] players (K-D)
+                //   /pvpstats top [amount] - show the top [amount] players (ELO)
                 args[0] = args[1];
                 legacyTop = 1;
             }
 
-            // /pvpstats [amount] - show the top [amount] players (K-D)
+            // /pvpstats [amount] - show the top [amount] players (ELO)
             try {
                 // legacytop == 0 -->
                 int count = legacyTop == 0 ? 10 : Integer.parseInt(args[0]);
@@ -101,7 +101,7 @@ public class CommandTop extends CoreCommand {
                     // /pvpstats [amount] [amount] [page]
                     offset = 10 * (Integer.parseInt(args[2]) - 1);
                 }
-                Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "K-D", count, args[0], offset));
+                Bukkit.getScheduler().runTaskAsynchronously(PVPStats.getInstance(), new SendPlayerTop(sender, "ELO", count, args[0], offset));
             } catch (Exception e) {
                 e.printStackTrace();
             }
