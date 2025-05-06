@@ -79,6 +79,40 @@ public final class DatabaseAPI {
             return;
         }
 
+        if (attacker != null && victim != null) {
+            // tbm00 - mc64
+            // checking players' playtime to make sure neither are newbies
+            // if so, they should not have ANY of their stats updated
+            int current_attacker_ticks=0, current_victim_ticks=0;
+            try {
+                current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
+                current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
+            } catch (Exception e) {
+                try {
+                    current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
+                    current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
+                } catch (Exception e2) {
+                    e.printStackTrace();
+                    e2.printStackTrace();
+                }
+            } if ((current_attacker_ticks < 36000) || (current_victim_ticks < 36000)) { // 30 mins
+                DEBUGGER.i("mc64 newbie detected (victim or killer recently joined in last 30m)");
+                return;
+            }
+
+            // tbm00 - mc64
+            // checking victim's kills to make sure they've had at least one
+            // if not, and they aren't a newbie, dont update ANY stats
+            int current_victim_kills=0;
+            try {
+                current_victim_kills = PlayerStatisticsBuffer.getKills(victim.getUniqueId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            } if (current_victim_kills == 0 && (current_victim_ticks < 864000)) { // 12 hrs
+                DEBUGGER.i("mc64 newbie detected (victim has 0 kills and less than 12h playtime)");
+                return;
+            }
+        }
         if (attacker != null && victim != null && plugin.config().getBoolean(Config.Entry.STATISTICS_CHECK_ABUSE)) {
 
             if (plugin.config().getBoolean(Config.Entry.STATISTICS_ABUSE_COMPLEX)) {
@@ -332,30 +366,8 @@ public final class DatabaseAPI {
         DEBUGGER.i("Counting kill by " + attacker.getName(), victim.getName());
         lastKill.put(attacker.getName(), victim.getName());
 
-        // tbm00 - mc64
-        // checking players' playtime to make sure they neither are newbies
-        // if so, they should not have their ELO score updated
-        int current_attacker_ticks=0, current_victim_ticks=0;
-        boolean passNewbieCheck64=true;
-        try {
-            current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
-            current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_MINUTE"));
-        } catch (Exception e) {
-            try {
-                current_attacker_ticks = attacker.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
-                current_victim_ticks = victim.getStatistic(Statistic.valueOf("PLAY_ONE_TICK"));
-            } catch (Exception e2) {
-                e.printStackTrace();
-                e2.printStackTrace();
-                passNewbieCheck64=false;
-            }
-        } if ((current_attacker_ticks < 864000) || (current_victim_ticks < 864000)) { // 12 hrs
-            passNewbieCheck64=false;
-        } 
-
-        if (!passNewbieCheck64 || !plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
-            if (passNewbieCheck64) DEBUGGER.i("mc64 newbie detected", victim.getName());
-            else DEBUGGER.i("no elo", victim.getName());
+        if (!plugin.config().getBoolean(Config.Entry.ELO_ACTIVE)) {
+            DEBUGGER.i("no elo", victim.getName());
             incKill(attacker, PlayerStatisticsBuffer.getEloScore(attacker.getUniqueId()));
             incDeath(victim, PlayerStatisticsBuffer.getEloScore(victim.getUniqueId()));
 
