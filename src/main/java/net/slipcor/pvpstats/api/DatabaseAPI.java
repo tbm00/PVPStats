@@ -648,7 +648,7 @@ public final class DatabaseAPI {
         int deaths = result.getDeaths();
         int streak = result.getCurrentStreak();
         int maxStreak = result.getMaxStreak();
-        Character rating = PlayerStatisticsBuffer.getRating(elo);
+        Character rating = PlayerStatisticsBuffer.getRatingByElo(elo);
 
         Double ratio = calculateRatio(result);
         DecimalFormat df = new DecimalFormat("#.##");
@@ -1067,23 +1067,23 @@ public final class DatabaseAPI {
 
                     case "KILLS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
                         break;
                     case "ELO":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getELO())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getELO())));
                         break;
                     case "STREAK":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getMaxStreak())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getMaxStreak())));
                         break;
                     case "CURRENTSTREAK":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getCurrentStreak())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getCurrentStreak())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1138,11 +1138,11 @@ public final class DatabaseAPI {
 
                     case "KILLS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1196,11 +1196,11 @@ public final class DatabaseAPI {
 
                     case "KILLS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));
@@ -1286,23 +1286,23 @@ public final class DatabaseAPI {
 
                     case "KILLS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getKills())));
                         break;
                     case "DEATHS":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getDeaths())));
                         break;
                     case "ELO":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getELO())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getELO())));
                         break;
                     case "STREAK":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getMaxStreak())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getMaxStreak())));
                         break;
                     case "CURRENTSTREAK":
                         sortedValues.add(Language.MSG.STATISTIC_FORMAT_RATING_TOP.parse(
-                                String.valueOf(PlayerStatisticsBuffer.getRating(entry.getUid())), entry.getName(), String.valueOf(entry.getCurrentStreak())));
+                                String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(entry.getUid())), entry.getName(), String.valueOf(entry.getCurrentStreak())));
                         break;
                     default:
                         results.put(entry.getName(), calculateRatio(entry));

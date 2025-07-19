@@ -245,7 +245,7 @@ public final class PlayerStatisticsBuffer {
      * @param uuid the player to read
      * @return the player's current rating score
      */
-    public static Character getRating(UUID uuid) {
+    public static Character getRatingByUuid(UUID uuid) {
         Integer elo = null;
         if (hasEloScore(uuid)) {
             elo = eloScore.get(uuid);
@@ -261,7 +261,7 @@ public final class PlayerStatisticsBuffer {
             elo = idefault;
         }
 
-        return getRating(elo);
+        return getRatingByElo(elo);
     }
 
     /**
@@ -270,7 +270,7 @@ public final class PlayerStatisticsBuffer {
      * @param elo the score to read
      * @return the score's current rating
      */
-    public static Character getRating(int elo) {
+    public static Character getRatingByElo(int elo) {
         if (elo<400) return 'F';
         else if (400<=elo && elo<1200) return 'D';
         else if (1200<=elo && elo<1600) return 'C';

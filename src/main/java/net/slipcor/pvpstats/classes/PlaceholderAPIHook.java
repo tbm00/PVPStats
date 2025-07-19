@@ -82,7 +82,7 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
         }
 
         if (s.equals("rating")) {
-            return String.valueOf(PlayerStatisticsBuffer.getRating(player.getUniqueId()));
+            return String.valueOf(PlayerStatisticsBuffer.getRatingByUuid(player.getUniqueId()));
         }
 
         if (s.equals("ratio")) {
